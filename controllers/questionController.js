@@ -1,15 +1,15 @@
-const { pool } = require('../config/dbConn')
+const { pool } = require('../config/dbConn');
 
 const handlegetQuestion = async (req, res) => {
     let result;
     const {title, category} = req.query;
 
     if (title){
-        result = await pool.query("select * from questions where title=$1 order by question_id asc",[title])
+        result = await pool.query("select * from questions where title ilike $1 order by question_id asc",[title])
     }else if (category){
-        result = await pool.query("select * from questions where category=$1 order by question_id asc",[category])
+        result = await pool.query("select * from questions where category ilike $1 order by question_id asc",[category])
     }else if (title && category){
-        result = await pool.query("select * from questions where title=$1 and category=$2 order by question_id asc",[title, category])
+        result = await pool.query("select * from questions where title ilike $1 and category ilike $2 order by question_id asc",[title, category])
     }else{
         result = await pool.query("select * from questions order by question_id asc")
     }
