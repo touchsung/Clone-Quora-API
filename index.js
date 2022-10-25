@@ -1,15 +1,17 @@
-const express = require('express')
-const { pool } = require('./config/dbConn')
-const app = express()
-const PORT = 4000
+const express = require('express');
+const app = express();
+const PORT = 4000;
+
+// built-in middleware for json 
+app.use(express.json());
 
 app.get('/', async(req, res) => {
-    const result = await pool.query("select * from questions")
-    return (
-        res.json(result.rows)
-    )
-})
+    res.send("Hello World");
+});
+
+// routes
+app.use('/questions', require('./routes/questions'));
 
 app.listen(PORT, ()=> {
     console.log(`Server is running at ${PORT}`);
-})
+});
